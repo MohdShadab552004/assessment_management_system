@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { assessmentData } from '../data/sampleData.js';
 import { assessmentConfigs } from '../config/reportConfig.js';
-import { PDFGenerator } from '../service/pdfGenerator.js';
+import { PDFGenerator } from '../service/pdfGenerator.service.js';
 import { validationResult } from 'express-validator';
 
 const pdfGenerator = new PDFGenerator();
