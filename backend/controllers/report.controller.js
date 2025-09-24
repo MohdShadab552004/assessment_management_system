@@ -2,14 +2,18 @@ import path from 'path';
 import fs from 'fs';
 import { assessmentData } from '../data/sampleData.js';
 import { assessmentConfigs } from '../config/reportConfig.js';
-import { PDFGenerator } from '../utils/pdfGenerator.js';
+import { PDFGenerator } from '../service/pdfGenerator.js';
+import { validationResult } from 'express-validator';
 
 const pdfGenerator = new PDFGenerator();
 
 export const generateReport = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { session_id } = req.body;
-
     if (!session_id) {
       return res.status(400).json({ error: 'session_id is required' });
     }

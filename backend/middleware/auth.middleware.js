@@ -1,20 +1,14 @@
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = 'your-jwt-secret-key';
+import { verifyJwtToken } from '../utils/jwt.js';
 
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
+  const token = req.cookies?.token;
   if (!token) {
     return res.status(401).json({ error: 'Access token required' });
   }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'Invalid or expired token' });
-    }
-    req.user = user;
-    next();
-  });
+  const user = verifyJwtToken(token);
+  if (!user) {
+    return res.status(403).json({ error: 'Invalid or expired token' });
+  }
+  req.user = user;
+  next();
 }

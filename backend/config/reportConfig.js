@@ -139,7 +139,7 @@ export const assessmentConfigs = {
       }
     ]
   },
-  
+
   // Cardiac Assessment
   "as_card_01": {
     assessment_id: "as_card_01",
@@ -223,14 +223,14 @@ export function getDataByPath(obj, path) {
 // Helper function to classify values
 export function classifyValue(value, classification) {
   if (!classification || !classification.ranges) return null;
-  
+
   const numValue = parseFloat(value);
   if (isNaN(numValue)) return null;
-  
+
   for (const range of classification.ranges) {
     const minMatch = range.min === undefined || numValue >= range.min;
     const maxMatch = range.max === undefined || numValue <= range.max;
-    
+
     if (minMatch && maxMatch) {
       return {
         label: range.label,
@@ -238,6 +238,6 @@ export function classifyValue(value, classification) {
       };
     }
   }
-  
+
   return null;
 }

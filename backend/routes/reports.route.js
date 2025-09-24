@@ -1,11 +1,12 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/auth.middleware.js';
 import { downloadReport, generateReport, getSession } from '../controllers/report.controller.js';
+import { reportValidation } from '../validation/report.validation.js';
 
 const router = express.Router();
 
 // Generate PDF report
-router.post('/generate-report', authenticateToken, generateReport);
+router.post('/generate-report', authenticateToken, reportValidation, generateReport);
 
 // Download generated report
 router.get('/download/:fileName', downloadReport);
